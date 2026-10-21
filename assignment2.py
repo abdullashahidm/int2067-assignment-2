@@ -75,11 +75,11 @@ def check_game_result(far_side,near_side):
 
 # Goal of game
 print("Welcome to the Fox Goose Corn Riddle game")
-print("Explain the game: ") #########
+print("You must transport all 3 items across the river\nYou can only take one item at a time\nDo no leave the goose alone with corn, or forx alone with goose")
 
 # Initialize some required items for the game
 far_side=[]
-near_side=["     Fox     ","     Goose     ","     Corn     "]
+near_side=["Fox","Goose","Corn"]
 boat_position="near"
 
 game_over=False
@@ -104,29 +104,29 @@ while not game_over:
     if user_move=="corn":
 
         if "corn" in far_side:
-            far_side.remove("     Corn     ")
-            near_side.append("     Corn     ")
+            far_side.remove("Corn")
+            near_side.append("Corn")
         else:
-            near_side.remove("     Corn     ")
-            far_side.append("     Corn     ")
+            near_side.remove("Corn")
+            far_side.append("Corn")
 
     if user_move=="goose":
 
         if "goose" in far_side:
-            far_side.remove("     Goose     ")
-            near_side.append("     Goose     ")
+            far_side.remove("Goose")
+            near_side.append("Goose")
         else:
-            near_side.remove("     Goose     ")
-            far_side.append("     Goose     ")
+            near_side.remove("Goose")
+            far_side.append("Goose")
 
     if user_move=="fox":
 
         if "fox" in far_side:
-            far_side.remove("     Fox     ")
-            near_side.append("     Fox     ")
+            far_side.remove("Fox")
+            near_side.append("Fox")
         else:
-            near_side.remove("     Fox     ")
-            far_side.append("     Fox     ")
+            near_side.remove("Fox")
+            far_side.append("Fox")
 
     result=check_game_result(far_side,near_side)
 
