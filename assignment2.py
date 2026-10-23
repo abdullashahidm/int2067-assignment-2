@@ -71,11 +71,18 @@ def check_game_result(far_side,near_side):
     if len(far_side)==3:
         return("won")
 
+    if len(far_side)==1:
+        if far_side[0]=="fox":
+            return("Game over, goose ate corn")
+        if far_side[0]=="corn":
+            return("Game over, fox ate goose")
+
+
 #--- Main ---#
 
 # Goal of game
 print("Welcome to the Fox Goose Corn Riddle game")
-print("You must transport all 3 items across the river\nYou can only take one item at a time\nDo no leave the goose alone with corn, or forx alone with goose")
+print("You must transport all 3 items across the river\nYou can only take one item at a time\nDo not leave the goose alone with corn, or fox alone with goose")
 
 # Initialize some required items for the game
 far_side=[]
@@ -88,7 +95,7 @@ game_won=False
 while not game_over:
     print_scene(far_side,near_side)
     
-    user_move=validate_inputs(f"Boat is at {boat_position} shore, choose what to take to other shore.\nIf you would like to take nothing to the other side, Enter nil\nAlternately, enter 'quit' to exit game >",["quit","corn","goose","fox","nil"])
+    user_move=validate_inputs(f"Boat is at {boat_position} shore, choose what to take to other shore.\nIf you would like to take nothing to the other side, enter nil\nAlternately, enter 'quit' to exit game >",["quit","corn","goose","fox","nil"])
     new_line()
     print("--"*75)
     new_line()
@@ -133,6 +140,8 @@ while not game_over:
     if result=="won":
         game_won=True
         game_over=True
+    if result=="loss":
+        sys.exit(result)
 
 if game_won:
     print("Congratulations, you have passed the game")
