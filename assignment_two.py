@@ -2,6 +2,9 @@
 
 #--- Imports ---#
 
+import sys
+import random
+
 #--- Classes ---#
 
 class Boat:
@@ -30,8 +33,10 @@ def water():
 
 def print_scene(boat,far_side,near_side):
 
+    line=""
+    
     for item in far_side:
-        line=(" "*15)+(item)
+        line+=(" "*15)+(item)
     print(line)
 
     print(("---"*15)+"Far shore"+("---"*15))
@@ -39,20 +44,21 @@ def print_scene(boat,far_side,near_side):
     water()
 
     if boat.position=="far":
-        print(" "*20+"Boat")
+        print(" "*45+"Boat")
 
     water()
     water()
 
     if boat.position=="near":
-        print(" "*20+"Boat")
+        print(" "*45+"Boat")
     
     water()
 
     print(("---"*15)+"Near shore"+("---"*15))
 
+    line=""
     for item in near_side:
-        line=(" "*15)+item
+        line+=(" "*15)+item
     print(line)
 
 def initialize_game():
@@ -67,13 +73,13 @@ def game_loop(boat,near_side,far_side):
 
     while True:
 
-        print_scene()
+        print_scene(boat,far_side,near_side)
 
         move=validated_move(main_loop_prompt,["fox","goose","corn","nil","quit"],near_side,far_side,boat)
 
-        ## Do the swapping as necessary
+        boat,near_side,far_side=item_movement(move,boat,near_side,far_side)
 
-        ## Check for victory or loss
+        check_result(boat,near_side,far_side)
 
 def validated_move(prompt,acceptable_inputs,near_side,far_side,boat):
 
@@ -86,20 +92,73 @@ def validated_move(prompt,acceptable_inputs,near_side,far_side,boat):
         if move not in acceptable_inputs:
             print("Please enter a valid input")
         
+        if move=="quit":
+            sys.exit("Exiting game")
+
+        elif move=="nil":
+            move_validated=True
+
         elif boat.position=="near":
-                if move in near_side:
+                if move.capitalize() in near_side:
                     move_validated=True
                 else:
                     print("Error: The item you want to move is on the other side")
             
         elif boat.position=="far":
-                if move in far_side:
+                if move.capitalize() in far_side:
                     move_validated=True
                 else:
                     print("Error: The item you want to move is on the other side")
 
     return(move)
 
+def item_movement(move,boat,near_side,far_side):
+
+    move=move.capitalize()
+    
+    if boat.position=="near":
+        boat.position="far"
+    else:
+        boat.position="near"
+
+    if move=="Nil":
+        pass
+    else:
+        if move in near_side:
+            near_side.remove(move)
+            far_side.append(move)
+        else:
+            far_side.remove(move)
+            near_side.append(move)
+
+    return(boat,near_side,far_side)
+
+def check_result(boat,near_side,far_side):
+
+    if len(far_side)==3:
+
+        print_scene(boat,far_side,near_side)
+
+        sys.exit("You win!")
+
+    if boat.position=="near":
+        unattended_side="far"
+    else:
+        unattended_side="near"
+
+    if unattended_side=="near":
+        if len(near_side)==2 and "Fox" in near_side and "Goose" in near_side:
+            sys.exit("\n\nYou lose! The Fox ate the Goose while you were away")
+
+        if len(near_side)==2 and "Goose" in near_side and "Corn" in near_side:
+            sys.exit("\n\nYou lose! The Goose ate the corn while you were away")
+
+    if unattended_side=="far":
+        if len(far_side)==2 and "Fox" in far_side and "Goose" in far_side:
+            sys.exit("\n\nYou lose! The Fox ate the Goose while you were away")
+
+        if len(far_side)==2 and "Goose" in far_side and "Corn" in far_side:
+            sys.exit("\n\nYou lose! The Goose ate the corn while you were away")
 
 #--- Constants ---#
 
