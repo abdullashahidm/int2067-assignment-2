@@ -13,7 +13,6 @@ class Boat:
         self.name="Boat"
         self.position=pos
 
-
 #--- Methods ---#
 
 def welcome():
@@ -102,7 +101,7 @@ def validated_move(prompt,acceptable_inputs,near_side,far_side,boat):
                 if move.capitalize() in near_side:
                     move_validated=True
                 else:
-                    print("Error: The item you want to move is on the other side")
+                    print("Error: This can not be done")
             
         elif boat.position=="far":
                 if move.capitalize() in far_side:
